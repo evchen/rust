@@ -7,12 +7,15 @@ bits 32			;stating following instructions are 32 bits
 
 start:
 	mov esp, stack_top
+	mov edi, ebx
+
 	call check_multiboot
 	call check_cpuid
 	call check_long_mode
 
 	call set_up_page_tables
 	call enable_paging
+	call set_up_SSE
 
 	lgdt [gdt64.pointer]
 
@@ -187,7 +190,7 @@ p3_table:
 p2_table:
     resb 4096
 stack_bottom:
-    resb 4096 * 2
+    resb 4096
 stack_top:
 
 
